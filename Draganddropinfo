@@ -1,0 +1,7 @@
+Make a “Drag and drop”
+Follow the steps below:
+1.Make a list in json with some records.
+2. make 4 boxes on UI 1 and 2 in one row and 3 and 4 in second row
+3. list two same set of records from json in 2nd and 4th box.
+4. drag drop the items for 2 to 1 and 4 to 3 and make dropped itmes list in that particular box.
+5. 1st and 3rd box should not contain same records
