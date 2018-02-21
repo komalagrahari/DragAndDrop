@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+body{font-family:verdana;}
+.dropbox {
+	
+    float: left; 
+    width: 270px; 
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+	min-height:200px;
+	margin-right:5px;
+	margin-bottom:5px;
+}
+.dropbox span{color:red;}
+.dropbox label{color:green;font-size:14px;}
+.clearfix{clear:both;}
+</style>
+</head>
+<body>
+
+<p>Drag & Drop</p>
+
+<div class="dropbox" ondrop="drop(event)" id="box1" ondragover="allowDrop(event)">
+   <span>Box 1</span>
+   <div class="clearfix"></div>
+   <label>Please serve me Banana & Grapes only.</label>
+  <br/>
+</div>
+
+<div class="dropbox" ondrop="drop(event)" id="box2" ondragover="allowDrop(event)">
+ <span>Box 2</span>
+ <div class="clearfix"></div>
+ <div id="FruitTray1"></div>
+</div>
+<div class="clearfix"></div>
+<div class="dropbox" ondrop="drop(event)" id="box3" ondragover="allowDrop(event)">
+   <span>Box 3</span>
+    <div class="clearfix"></div>
+   <label>Please serve me Apple & Orange only.</label>
+  <br/>
+</div>
+
+<div class="dropbox" ondrop="drop(event)" id="box4" ondragover="allowDrop(event)">
+ <span>Box 4</span>
+  <div class="clearfix"></div>
+ <div id="FruitTray2"></div>
+ <br/>
+</div>
+
+<p style="clear:both;"></p>
+
+<p id="demo"></p>
+
+ 
+<script>
+
+function CreateListFromJSON() {
+        var fruits = [
+            {
+                "Fruits": "Apple"
+            },
+            {
+                "Fruits": "Banana"
+            },
+            {
+                "Fruits": "Orange"
+            },
+            {
+                "Fruits": "Grapes"
+            }
+        ]
+
+       
+		var divContainer = document.getElementById("FruitTray1");
+		var divContainer2 = document.getElementById("FruitTray2");
+		
+		for (var i = 0; i < fruits.length; i++) {
+            var th = document.createElement("p");      
+			th.setAttribute("draggable",true);  
+			th.setAttribute("id","draggable_"+i);  		
+			th.addEventListener('dragstart', function(event) {dragStart(event);}, false);
+            th.innerHTML = ""+fruits[i].Fruits;
+            divContainer.appendChild(th);
+        }
+		for (var i = 0; i < fruits.length; i++) {
+            var th = document.createElement("p");      
+			th.setAttribute("draggable",true);  
+			th.setAttribute("id","draggable2_"+i);  		
+			th.addEventListener('dragstart', function(event) {dragStart(event);}, false);
+            th.innerHTML = ""+fruits[i].Fruits;
+			divContainer2.appendChild(th);
+        }
+
+        
+    }
+
+
+CreateListFromJSON();
+function dragStart(event) {
+    event.dataTransfer.setData("Text", event.target.id);
+	sourceID=event.path[2].id;
+    document.getElementById("demo").innerHTML = "Started to drag the p element";
+}
+var sourceID="";
+var destID="";
+function allowDrop(event) {
+event.preventDefault();
+}
+
+function drop(event) {
+
+    event.preventDefault();
+    var data = event.dataTransfer.getData("Text");
+	
+		 destID=event.target.id;
+		if((sourceID=="box2" && destID=="box1") || (sourceID=="box4" && destID=="box3"))
+		{		
+			if(document.getElementById(destID).innerHTML.indexOf(document.getElementById(data).innerHTML)>0)
+			{
+			event.target.appendChild(document.getElementById(data));
+			document.getElementById("demo").innerHTML = "The p element was dropped";
+			}
+			else
+			{
+				document.getElementById("demo").innerHTML = "I don't want this fruit.";
+			}
+		}
+		else
+		{
+			document.getElementById("demo").innerHTML = "I don't want fruit from you.";
+		}
+	
+}
+</script>
+
+</body>
+</html>
